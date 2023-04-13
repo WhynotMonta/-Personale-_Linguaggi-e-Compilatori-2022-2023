@@ -21,8 +21,7 @@ public:
 };
 
 char LoopWalkPass::ID = 0;
-RegisterPass<LoopWalkPass> X("loop-walk",
-                             "Loop Walk");
+RegisterPass<LoopWalkPass> X("loop-walk","Loop Walk");
 
 } // anonymous namespace
 
