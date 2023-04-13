@@ -1,8 +1,6 @@
 OPTIMIZER := lib/LoopWalk.so
 OBJs := $(subst .cpp,.o,$(wildcard lib/*.cpp))
 
-LLVM_VERSION ?= 16
-
 CXXFLAGS := $(shell llvm-config --cxxflags) -fPIC 
 LLVMFLAGS := $(shell llvm-config --ldflags --libs --system-libs)
 
