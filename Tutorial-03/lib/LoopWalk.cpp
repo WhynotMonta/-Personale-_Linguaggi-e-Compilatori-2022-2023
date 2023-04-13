@@ -15,7 +15,21 @@ public:
   }
 
   virtual bool runOnLoop(Loop *L, LPPassManager &LPM) override {
-    outs() << "\nLOOPPASS INIZIATO...\n"; 
+    if(L->isLoopSimplifyForm()) 
+    {
+      outs() << "il loop e' in forma normalizzata" <<'\n';
+    }  
+    if(BasicBlock* BB=L->getLoopPreheader())
+    {
+      outs()<<"preheader: ";
+      BB->print(outs());
+    }
+    for(Loop::block_iterator BI=L->block_begin(); BI!=L->block_end(); ++BI)
+    {
+      BasicBlock* BB=*BI;
+      BB->print(outs());
+    }
+
     return false; 
   }
 };
