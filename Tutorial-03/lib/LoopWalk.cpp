@@ -21,13 +21,31 @@ public:
     }  
     if(BasicBlock* BB=L->getLoopPreheader())
     {
-      outs()<<"preheader: ";
-      BB->print(outs());
+     /*  outs()<<"preheader: ";
+      BB->print(outs()); */
     }
     for(Loop::block_iterator BI=L->block_begin(); BI!=L->block_end(); ++BI)
     {
-      BasicBlock* BB=*BI;
-      BB->print(outs());
+      
+     BasicBlock* BB=*BI;
+    /*  BB->print(outs()); */
+      for(auto i=BB->begin(); i!=BB->end();++i) {
+        Instruction &Inst=*i;
+        if(Inst.getOpcode()==Instruction::Sub)
+        {
+          for(auto *Iter=Inst.op_begin(); Iter!=Inst.op_end();++Iter)
+          {
+            Value *Operand=*Iter;
+            if(!dyn_cast<ConstantInt>(Operand))
+            {  
+              outs()<<*Operand<<'\n';
+              dyn_cast<Instruction>(Iter)->getParent()->print(outs());
+            }
+          }
+          outs()<<'\n';
+        }  
+      }
+     
     }
 
     return false; 
