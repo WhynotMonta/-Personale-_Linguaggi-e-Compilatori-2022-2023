@@ -15,30 +15,28 @@ public:
   }
 
   virtual bool runOnLoop(Loop *L, LPPassManager &LPM) override {
-    if(L->isLoopSimplifyForm()) 
-    {
+    if(L->isLoopSimplifyForm())  {
       outs() << "il loop e' in forma normalizzata" <<'\n';
     }  
-    if(BasicBlock* BB=L->getLoopPreheader())
-    {
-     /*  outs()<<"preheader: ";
-      BB->print(outs()); */
+
+    if(BasicBlock* BB=L->getLoopPreheader()) {
+      outs()<<"\n il preheader è :";
+      BB->print(outs());
+      outs()<<"\n";
     }
-    for(Loop::block_iterator BI=L->block_begin(); BI!=L->block_end(); ++BI)
-    {
-      
-     BasicBlock* BB=*BI;
-    /*  BB->print(outs()); */
+
+    for(Loop::block_iterator BI=L->block_begin(); BI!=L->block_end(); ++BI) {
+      BasicBlock* BB=*BI;
+      // BB->print(outs());
       for(auto i=BB->begin(); i!=BB->end();++i) {
         Instruction &Inst=*i;
-        if(Inst.getOpcode()==Instruction::Sub)
-        {
-          for(auto *Iter=Inst.op_begin(); Iter!=Inst.op_end();++Iter)
-          {
+
+        if(Inst.getOpcode()==Instruction::Sub) {
+          for(auto *Iter=Inst.op_begin(); Iter!=Inst.op_end();++Iter) {
             Value *Operand=*Iter;
-            if(!dyn_cast<ConstantInt>(Operand))
-            {  
-              outs()<<*Operand<<'\n';
+            if(!dyn_cast<ConstantInt>(Operand)) {  
+              outs()<<"Istruzione che definisce l'operando:"<<*Operand<<'\n';
+              outs()<<"\nIl suo basick block è:";
               dyn_cast<Instruction>(Iter)->getParent()->print(outs());
             }
           }
@@ -47,7 +45,6 @@ public:
       }
      
     }
-
     return false; 
   }
 };
