@@ -14,5 +14,9 @@ $(OPTIMIZER): $(OBJs)
 clean:
 	$(RM) $(OPTIMIZER) $(OBJs)
 
-load:
+run:
 	opt -enable-new-pm=0 -load ./lib/LoopWalk.so -loop-walk test/Loop.ll -disable-output
+
+load:
+	opt -enable-new-pm=0 -load ./lib/LoopWalk.so -loop-walk test/Loop.ll -o test/LoopOpt.bc
+	llvm-dis test/LoopOpt.bc -o test/LoopOpt.ll
